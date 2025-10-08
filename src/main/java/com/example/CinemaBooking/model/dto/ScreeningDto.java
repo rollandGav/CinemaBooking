@@ -8,8 +8,8 @@ import java.time.LocalDateTime;
 
 @Data
 public class ScreeningDto {
-    private Movie movie;
-    private CinemaRoom cinemaRoom;
+    private Long movieId;
+    private Long cinemaRoomId;
     private LocalDateTime startTime;
     private Double price;
 }
