@@ -16,5 +16,8 @@ public class Seat {
     private Long id;
     private Integer rowNumber;
     private Integer colNumber;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "room_id")
     private CinemaRoom cinemaRoom;
 }

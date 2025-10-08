@@ -1,13 +1,11 @@
 package com.example.CinemaBooking.controller;
 
+import com.example.CinemaBooking.model.dto.MovieDto;
 import com.example.CinemaBooking.model.entities.Movie;
 import com.example.CinemaBooking.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,8 +22,26 @@ public class MovieController {
         return ResponseEntity.ok(movieService.findAllMovies());
     }
 
-    @GetMapping("/{name}")
-    public ResponseEntity<Optional<Movie>> findMovieByName(@PathVariable String name){
-        return ResponseEntity.ok(movieService.findMovieByName());
+    @GetMapping("/{title}")
+    public ResponseEntity<Optional<Movie>> findMovieByName(@PathVariable String title){
+        return ResponseEntity.ok(movieService.findMovieByTitle(title));
     }
+
+    @PostMapping
+    public ResponseEntity<Movie> createMovie(@RequestBody MovieDto dto){
+
+        return ResponseEntity.ok(movieService.createMovie(movieService.toEntity(dto)));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteMovieById(@PathVariable Long id){
+        movieService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Movie> updateMovie(@PathVariable Long id, @RequestBody MovieDto dto) {
+        return ResponseEntity.ok(movieService.updateMovie(id, dto));
+    }
+
 }
