@@ -1,35 +1,41 @@
 package com.example.CinemaBooking.controller;
 
-
 import com.example.CinemaBooking.model.dto.UserDto;
 import com.example.CinemaBooking.model.entities.User;
-import com.example.CinemaBooking.service.UserService;
-import io.swagger.v3.oas.annotations.Operation;
+import com.example.CinemaBooking.repo.UserRepository;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
-    private final UserService userService;
-    public UserController(UserService userService) { this.userService = userService; }
+    private final UserRepository userRepo;
+    private final PasswordEncoder passwordEncoder;
 
-    @Operation(summary = "Create user")
-    @PostMapping
-    public ResponseEntity<User> create(@RequestBody UserDto dto) {
-        return ResponseEntity.ok(userService.createUser(dto));
+    public UserController(UserRepository userRepo, PasswordEncoder passwordEncoder) {
+        this.userRepo = userRepo;
+        this.passwordEncoder = passwordEncoder;
     }
 
-    @Operation(summary = "Get all users")
-    @GetMapping
-    public ResponseEntity<List<User>> all() { return ResponseEntity.ok(userService.findAll()); }
+    // register (public)
+    @PostMapping("/register")
+    public ResponseEntity<User> register(@RequestBody UserDto dto) {
+        User u = new User();
+        u.setName(dto.getName());
+        u.setEmail(dto.getEmail());
+        u.setPassword(passwordEncoder.encode(dto.getPassword()));
+        u.setRole(dto.getRole() != null ? dto.getRole() : com.example.CinemaBooking.model.enums.Role.ROLE_USER);
+        userRepo.save(u);
+        u.setPassword(null);
+        return ResponseEntity.ok(u);
+    }
 
-    @Operation(summary = "Update user")
-    @PutMapping("/{id}")
-    public ResponseEntity<User> update(@PathVariable Long id, @RequestBody UserDto dto) { return ResponseEntity.ok(userService.updateUser(id, dto)); }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) { userService.delete(id); return ResponseEntity.noContent().build(); }
+    // get current user (requires auth)
+    @GetMapping("/me")
+    public ResponseEntity<User> me(java.security.Principal principal) {
+        User u = userRepo.findByEmail(principal.getName()).orElseThrow();
+        u.setPassword(null);
+        return ResponseEntity.ok(u);
+    }
 }
