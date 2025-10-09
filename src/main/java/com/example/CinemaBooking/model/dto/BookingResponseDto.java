@@ -3,14 +3,10 @@ package com.example.CinemaBooking.model.dto;
 import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.util.Set;
 
 @Data
-public class BookingDto {
-    private Long id;
-    private Long userId;
-    private Long screeningId;
-    private Set<Long> seatIds;
+public class BookingResponseDto {
+    private Long bookingId;
     private String status;
     private LocalDateTime createdAt;
 }
