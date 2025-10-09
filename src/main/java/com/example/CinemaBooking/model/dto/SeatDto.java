@@ -7,5 +7,6 @@ import lombok.Data;
 public class SeatDto {
     private Integer rowNumber;
     private Integer colNumber;
-    private CinemaRoom cinemaRoom;
+    private Long cinemaRoomId;
+    private String cinemaRoomName;
 }

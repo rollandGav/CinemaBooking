@@ -3,4 +3,8 @@ package com.example.CinemaBooking.repo;
 import com.example.CinemaBooking.model.entities.Seat;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface SeatRepository extends JpaRepository<Seat, Long> {}
+import java.util.List;
+
+public interface SeatRepository extends JpaRepository<Seat, Long> {
+    List<Seat> findByCinemaRoomId(Long cinemaRoomId);
+}
