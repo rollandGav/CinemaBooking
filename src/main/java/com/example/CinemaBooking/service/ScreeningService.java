@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface ScreeningService {
     public Screening createScreening(ScreeningDto dto);
-    public List<Screening> findAllScreening();
-    public Screening findScreeningById(Long id);
+    public List<ScreeningDto> findAllScreening();
+    public ScreeningDto findScreeningById(Long id);
 }

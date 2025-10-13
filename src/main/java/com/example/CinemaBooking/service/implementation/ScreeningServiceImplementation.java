@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ScreeningServiceImplementation implements ScreeningService {
@@ -38,12 +39,28 @@ public class ScreeningServiceImplementation implements ScreeningService {
     }
 
     @Override
-    public List<Screening> findAllScreening() {
-        return screeningRepository.findAll();
+    public List<ScreeningDto> findAllScreening() {
+        return screeningRepository.findAll().stream()
+                .map(this::toDto)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public Screening findScreeningById(Long id) {
-        return screeningRepository.findById(id).orElseThrow(() -> new RuntimeException("Screening not found: " + id));
+    public ScreeningDto findScreeningById(Long id) {
+        Screening s = screeningRepository.findById(id).orElseThrow(() -> new RuntimeException("Screening not found: " + id));
+        return toDto(s);
+    }
+
+    public ScreeningDto toDto(Screening screening){
+        ScreeningDto dto = new ScreeningDto();
+        dto.setStartTime(screening.getStartTime());
+        dto.setPrice(screening.getPrice());
+        if(screening.getMovie() != null){
+            dto.setMovieId(screening.getMovie().getId());
+        }
+        if (screening.getCinemaRoom() != null){
+            dto.setCinemaRoomId(screening.getCinemaRoom().getId());
+        }
+        return dto;
     }
 }

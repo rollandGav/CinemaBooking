@@ -3,6 +3,7 @@ package com.example.CinemaBooking.controller;
 import com.example.CinemaBooking.model.dto.MovieDto;
 import com.example.CinemaBooking.model.entities.Movie;
 import com.example.CinemaBooking.service.MovieService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,7 @@ public class MovieController {
     @Autowired
     MovieService movieService;
 
+    @Operation(summary = "Get all movies")
     @GetMapping
     public ResponseEntity<List<Movie>> findAllMovies(){
         return ResponseEntity.ok(movieService.findAllMovies());
@@ -27,6 +29,7 @@ public class MovieController {
         return ResponseEntity.ok(movieService.findMovieByTitle(title));
     }
 
+    @Operation(summary = "Api to create a movie")
     @PostMapping
     public ResponseEntity<Movie> createMovie(@RequestBody MovieDto movieDto){
         return ResponseEntity.ok(movieService.createMovie(movieService.toEntity(movieDto)));

@@ -21,12 +21,12 @@ public class ScreeningController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Screening>> findAllScreenings(){
+    public ResponseEntity<List<ScreeningDto>> findAllScreenings(){
         return ResponseEntity.ok(screeningService.findAllScreening());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Screening> findScreeningById(@PathVariable Long id){
+    public ResponseEntity<ScreeningDto> findScreeningById(@PathVariable Long id){
         return ResponseEntity.ok(screeningService.findScreeningById(id));
     }
 }
