@@ -14,7 +14,6 @@ import com.example.CinemaBooking.repo.SeatRepository;
 import com.example.CinemaBooking.repo.UserRepository;
 import com.example.CinemaBooking.service.BookingService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -34,7 +33,6 @@ public class BookingServiceImplementation implements BookingService {
     @Autowired
     BookingRepository bookingRepository;
 
-    private static final long ONHOLD_MINUTES = 10;
 
 
     @Override
