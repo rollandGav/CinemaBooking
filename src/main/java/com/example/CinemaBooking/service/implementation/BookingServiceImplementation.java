@@ -70,7 +70,8 @@ public class BookingServiceImplementation implements BookingService {
 
     @Override
     public List<BookingDto> findBookingByUserId(Long userId) {
-        return bookingRepository.findByUserId(userId).stream().map(this::toDto).collect(Collectors.toList());
+        return bookingRepository.findByUserId(userId).stream().map(booking -> toDto(booking)).collect(Collectors.toList());
+//        return bookingRepository.findByUserId(userId).stream().map(this::toDto).collect(Collectors.toList());
     }
 
     @Override
@@ -85,7 +86,8 @@ public class BookingServiceImplementation implements BookingService {
         dto.setId(booking.getId());
         if(booking.getUser() != null)  dto.setUserId(booking.getUser().getId());
         if (booking.getScreening() != null) dto.setScreeningId(booking.getScreening().getId());
-        dto.setSeatsIds(booking.getSeats().stream().map(Seat::getId).collect(Collectors.toSet()));
+        dto.setSeatsIds(booking.getSeats().stream().map(seat -> seat.getId()).collect(Collectors.toSet()));
+//        dto.setSeatsIds(booking.getSeats().stream().map(Seat::getId).collect(Collectors.toSet()));
         dto.setStatus(booking.getStatus().name());
         dto.setCreatedAt(booking.getCreatedAt());
         return dto;

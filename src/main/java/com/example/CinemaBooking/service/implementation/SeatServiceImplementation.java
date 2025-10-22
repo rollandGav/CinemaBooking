@@ -18,7 +18,8 @@ public class SeatServiceImplementation implements SeatService {
     @Override
     public List<SeatDto> findSeatByRoom(Long roomId) {
         List<Seat> seats = seatRepository.findByCinemaRoomId(roomId);
-        return seats.stream().map(this::toDto).collect(Collectors.toList());
+        return seats.stream().map(seat -> toDto(seat)).collect(Collectors.toList());
+//        return seats.stream().map(this::toDto).collect(Collectors.toList());
     }
 
     @Override

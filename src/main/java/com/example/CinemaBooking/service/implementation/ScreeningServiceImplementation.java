@@ -41,7 +41,8 @@ public class ScreeningServiceImplementation implements ScreeningService {
     @Override
     public List<ScreeningDto> findAllScreening() {
         return screeningRepository.findAll().stream()
-                .map(this::toDto)
+                .map(screening -> toDto(screening))
+//                .map(this::toDto)
                 .collect(Collectors.toList());
     }
 

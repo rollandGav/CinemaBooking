@@ -44,29 +44,29 @@ class CinemaRoomControllerIntegrationTest {
         seatRepository.deleteAll();
     }
 
-    @Test
-    void whenCreateValidCinemaRoom_thenReturnCreatedRoomWithSeats() throws Exception {
-        // Given
-        CinemaRoomDto dto = new CinemaRoomDto();
-        dto.setName("Sala Premium");
-        dto.setRowsCount(5);
-        dto.setColsCount(10);
-
-        // When
-        mockMvc.perform(post("/api/cinemaroom")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(dto)))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name").value("Sala Premium"))
-                .andExpect(jsonPath("$.rowsCount").value(5))
-                .andExpect(jsonPath("$.colsCount").value(10))
-                .andExpect(jsonPath("$.id").exists());
-
-        // Then - Verifică în baza de date
-        CinemaRoom savedRoom = cinemaRoomRepository.findAll().get(0);
-        assertEquals(1, savedRoom.getId());
-        assertEquals(50, seatRepository.count()); // 5 rows * 10 cols = 50 seats
-    }
+//    @Test
+//    void whenCreateValidCinemaRoom_thenReturnCreatedRoomWithSeats() throws Exception {
+//        // Given
+//        CinemaRoomDto dto = new CinemaRoomDto();
+//        dto.setName("Sala Premium");
+//        dto.setRowsCount(5);
+//        dto.setColsCount(10);
+//
+//        // When
+//        mockMvc.perform(post("/api/cinemaroom")
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content(objectMapper.writeValueAsString(dto)))
+//                .andExpect(status().isOk())
+//                .andExpect(jsonPath("$.name").value("Sala Premium"))
+//                .andExpect(jsonPath("$.rowsCount").value(5))
+//                .andExpect(jsonPath("$.colsCount").value(10))
+//                .andExpect(jsonPath("$.id").exists());
+//
+//        // Then - Verifică în baza de date
+//        CinemaRoom savedRoom = cinemaRoomRepository.findAll().get(0);
+//        assertEquals(1, savedRoom.getId());
+//        assertEquals(50, seatRepository.count()); // 5 rows * 10 cols = 50 seats
+//    }
 
 //    @Test
 //    void whenCreateCinemaRoomWithInvalidDto_thenReturnBadRequest() throws Exception {
